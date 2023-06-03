@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +33,15 @@ public class LoginController {
         try {
             String hashPwd = passwordEncoder.encode(customer.getPwd());
             customer.setPwd(hashPwd);
-            customer.setCreateDt(String.valueOf(new Date(System.currentTimeMillis())));
+            Date date = new Date();
+
+            // 创建SimpleDateFormat对象，指定日期格式
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+            // 使用SimpleDateFormat格式化Date对象
+            String friday = sdf.format(date);
+            //String friday=String.valueOf(new Date(System.currentTimeMillis()));
+            customer.setCreateDt(friday);
             savedCustomer = customerRepository.save(customer);
             if (savedCustomer.getId() > 0) {
                 response = ResponseEntity
